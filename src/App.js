@@ -2,16 +2,25 @@ import useApi from "./network/useApi";
 import { TextField } from "@mui/material";
 import "./App.css";
 import TableComponent from "./components/TableComponent";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+
+const recordPerPage = 5;
 
 function App() {
   const { isLoading, isError, data, searchFinal, setSearchFinal } = useApi();
   const [searchData, setSearchData] = useState("");
   const [sortPararm, setSortParam] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const lastIndex = currentPage * recordPerPage;
+  const firstIndex = lastIndex - recordPerPage;
+  const records = searchFinal.slice(firstIndex, lastIndex);
+  const nPages = Math.ceil(data.length / recordPerPage);
+  const numbers = [...Array(nPages + 1).keys()].slice(1);
 
   function handleOnchange(e) {
     handleSearchFilter(e.target.value);
@@ -42,6 +51,22 @@ function App() {
     });
     setSearchFinal(final);
   }
+
+  const handleNextPage = () => {
+    if (currentPage !== numbers.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleSelectedPage = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="App">
@@ -78,11 +103,58 @@ function App() {
           </FormControl>
         </div>
       </div>
-      <TableComponent
-        data={searchFinal}
-        isLoading={isLoading}
-        isError={isError}
-      />
+      <TableComponent data={records} isLoading={isLoading} isError={isError} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20px",
+          marginBottom: "50px",
+          cursor: "pointer",
+        }}
+      >
+        <div
+          style={{
+            width: "45px",
+            height: "20px",
+            backgroundColor: "gray",
+            margin: "10px",
+          }}
+          onClick={handlePrevPage}
+        >
+          Prev
+        </div>
+        {numbers.map((item) => {
+          return (
+            <div
+              style={{
+                width: "45px",
+                height: "20px",
+                backgroundColor: "gray",
+                margin: "10px",
+                cursor: "pointer",
+              }}
+              onClick={() => handleSelectedPage(item)}
+              key={item}
+            >
+              {item}
+            </div>
+          );
+        })}
+        <div
+          style={{
+            width: "45px",
+            height: "20px",
+            backgroundColor: "gray",
+            margin: "10px",
+            cursor: "pointer",
+          }}
+          onClick={handleNextPage}
+        >
+          Next
+        </div>
+      </div>
     </div>
   );
 }
