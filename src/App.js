@@ -1,14 +1,19 @@
-import { TextField } from "@mui/material";
 import "./App.css";
 import TableComponent from "./components/TableComponent";
 import { useEffect, useState } from "react";
+import { Typography, Button, TextField } from "@mui/material";
+import Form from "./components/Form";
+import Menubar from "./components/Menubar";
+import Cards from "./components/Cards";
 
 function App() {
   const [searchData, setSearchData] = useState("");
 
   return (
     <div className="App">
-      <h3>MUI practice</h3>
+      <Menubar />
+      <Cards />
+      {/* <Form /> */}
     </div>
   );
 }
