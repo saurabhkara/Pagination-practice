@@ -8,6 +8,12 @@ import Cards from "./components/Cards";
 import Modals from "./components/Modals";
 import Containers from "./components/Containers";
 import ListComponent from "./components/ListComponent";
+import AccordianComp from "./components/AccordianComp";
+import AutoCompleteComp from "./components/AutoCompleteComp";
+import DrawerMenu from "./components/DrawerMenu";
+import SnackBarComp from "./components/SnackBarComp";
+import ProgressBarComp from "./components/ProgressBarComp";
+import GridSystem from "./components/GridSystem";
 
 function App() {
   const [searchData, setSearchData] = useState("");
@@ -19,7 +25,13 @@ function App() {
       <Modals />
       <Form /> */}
       {/* <Containers /> */}
-      <ListComponent />
+      {/* <ListComponent /> */}
+      {/* <AccordianComp /> */}
+      {/* <AutoCompleteComp /> */}
+      {/* <DrawerMenu /> */}
+      {/* <SnackBarComp /> */}
+      {/* <ProgressBarComp /> */}
+      <GridSystem />
     </div>
   );
 }
